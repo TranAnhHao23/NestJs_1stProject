@@ -21,40 +21,33 @@ export class PostsService {
     },
   ];
 
-  getPosts(): Promise<any> {
-    return new Promise((resolve) => {
-      resolve(this.posts);
-    });
+  getPosts(): any {
+    return this.posts;
   }
 
-  getPost(idPost): Promise<any> {
+  getPost(idPost): any {
     const id = Number(idPost);
-    return new Promise((resolve) => {
-      const post = this.posts.find((post) => post.id === id);
-      // if (!post) {
-      //   throw new HttpException('Post not found', 404);
-      // }
-      resolve(post);
-    });
+    const post = this.posts.find((post) => post.id === id);
+    if (post !== null) {
+      return post;
+    } else {
+      throw new HttpException('Post not found', 404);
+    }
   }
 
-  addPost(post): Promise<any> {
-    return new Promise((resolve) => {
-      this.posts.push(post);
-      resolve(this.posts);
-    });
+  addPost(post): any {
+    this.posts.push(post);
+    return this.posts;
   }
 
-  deletePost(idPost): Promise<any> {
+  deletePost(idPost): any {
     const id = Number(idPost);
-    return new Promise((resolve) => {
-      const index = this.posts.findIndex((post) => post.id === id);
-      if (index !== -1) {
-        this.posts.splice(index, 1);
-        resolve(this.posts);
-      } else {
-        throw new HttpException('Post not found', 404);
-      }
-    });
+    const index = this.posts.findIndex((post) => post.id === id);
+    if (index !== -1) {
+      this.posts.splice(index, 1);
+      return this.posts;
+    } else {
+      throw new HttpException('Post not found', 404);
+    }
   }
 }
